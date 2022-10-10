@@ -1,25 +1,25 @@
-GET http://127.0.0.1:10001/movies/
+GET http://127.0.0.1:5000/movies/
 Accept: application/json
 
 ###
 
-GET http://127.0.0.1:10001/movies/?director_id=12
+GET http://127.0.0.1:5000/movies/?director_id=12
 Accept: application/json
 
 ###
 
-GET http://127.0.0.1:10001/movies/?genre_id=4
+GET http://127.0.0.1:5000/movies/?genre_id=4
 Accept: application/json
 
 ###
 
-GET http://127.0.0.1:10001/movies/?year=2010
+GET http://127.0.0.1:5000/movies/?year=2010
 Accept: application/json
 
 ###
 
-GET http://127.0.0.1:10001/directors/
-Accept: application/json
+GET http://127.0.0.1:5000/directors/
+Accept: 111
 
 ###
 
@@ -43,7 +43,7 @@ Accept: application/json
 
 ###
 
-POST http://127.0.0.1:10001/movies/
+POST http://127.0.0.1:5000/movies/
 Accept: application/json
 Content-Type: application/json
 
@@ -57,7 +57,7 @@ Content-Type: application/json
 
 ###
 
-PUT http://127.0.0.1:10001/movies/21
+PUT http://127.0.0.1:5000/movies/21
 Accept: application/json
 Content-Type: application/json
 
@@ -92,3 +92,4 @@ Content-Type: application/json
 ###
 
 DELETE http://127.0.0.1:10001/movies/21
+
