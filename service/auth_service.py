@@ -23,33 +23,25 @@ class AuthService:
         if user is None:
             raise abort(404)
 
-        hash_pass = self.service.get_hash_easy(user.password)
-        print(hash_pass)
-
         if not is_refresh:
-            if not self.service.compare_paswords(hash_pass, password):
+            if not self.service.compare_paswords(user.password, password):
                 raise abort(400)
 
         data = {'username': user.username,
                 'role': user.role}
 
-        min30 = datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
+        min30 = datetime.datetime.utcnow() + datetime.timedelta(seconds=1)
         data['exp'] = calendar.timegm(min30.timetuple())
         access_token = jwt.encode(data, SECRET, algorithm=ALGO)
         d30 = datetime.datetime.utcnow() + datetime.timedelta(days=30)
         data['exp'] = calendar.timegm(d30.timetuple())
         refresh_token = jwt.encode(data, SECRET, algorithm=ALGO)
 
-        print(access_token)
-        print(refresh_token)
-
         return {'access_token': access_token,
                 'refresh_token': refresh_token}
 
     def approve_refresh_tokens(self, token):
-        try:
-            data = jwt.decode(token, SECRET, algorithms=[ALGO])
-            username = data.get('username')
-            return self.generate_token(username, None, is_refresh=True)
-        except Exception as e:
-            return f'Error {e}', 401
+        data = jwt.decode(jwt=token, key=SECRET, algorithms=[ALGO])
+        username = data.get('username')
+        return self.generate_token(username, None, is_refresh=True)
+

@@ -33,12 +33,12 @@ class UserService:
         return self.dao.get_by_name(name)
 
     def get_hash_hard(self, password):
-        return hashlib.pbkdf2_hmac(
+        return base64.b64encode(hashlib.pbkdf2_hmac(
             'sha256',
             password.encode('utf-8'),
             PWD_HASH_SALT,
             PWD_HASH_ITERATIONS
-        )
+        ))
 
     def get_hash_easy(self, password):
         return hashlib.md5(password.encode('utf-8')).hexdigest()
