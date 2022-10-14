@@ -16,8 +16,6 @@ class AuthService:
         return self.service.get_by_username(name)
 
     def generate_token(self, username, password, is_refresh=False):
-        if None in [username, password]:
-            abort(400)
 
         user = self.service.get_by_username(username)
         if user is None:
@@ -30,7 +28,7 @@ class AuthService:
         data = {'username': user.username,
                 'role': user.role}
 
-        min30 = datetime.datetime.utcnow() + datetime.timedelta(seconds=1)
+        min30 = datetime.datetime.utcnow() + datetime.timedelta(minutes=1)
         data['exp'] = calendar.timegm(min30.timetuple())
         access_token = jwt.encode(data, SECRET, algorithm=ALGO)
         d30 = datetime.datetime.utcnow() + datetime.timedelta(days=30)
@@ -41,7 +39,6 @@ class AuthService:
                 'refresh_token': refresh_token}
 
     def approve_refresh_tokens(self, token):
-        data = jwt.decode(jwt=token, key=SECRET, algorithms=[ALGO])
+        data = jwt.decode(token, key=SECRET, algorithms=[ALGO])
         username = data.get('username')
-        return self.generate_token(username, None, is_refresh=True)
-
+        return self.generate_token(username, None, True)
